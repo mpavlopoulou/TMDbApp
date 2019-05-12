@@ -2,10 +2,12 @@ package gr.mpav.tmdbapp.activities
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gr.mpav.tmdbapp.R
@@ -26,6 +28,9 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
     private lateinit var showsRecycler: RecyclerView
     private lateinit var mShowsAdapter: ShowsAdapter
 
+    private lateinit var mNoResultsView: ConstraintLayout
+    private lateinit var mInitialView: ConstraintLayout
+
     private val mRepo: TMDBRepository = TMDBRepository.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +39,14 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
         setUpViews(savedInstanceState)
     }
 
-    fun setUpViews(savedInstanceState: Bundle?) {
+    private fun setUpViews(savedInstanceState: Bundle?) {
         super.setUpViews()
+
+        mNoResultsView = findViewById(R.id.no_results_view)
+        mNoResultsView.visibility = View.GONE
+        mInitialView = findViewById(R.id.initial_view)
+        mInitialView.visibility = View.VISIBLE
+
         searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
@@ -72,6 +83,7 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
 
     private fun setUpShowsRecycler(){
         showsRecycler = findViewById(R.id.shows_recycler)
+        showsRecycler.visibility = View.GONE
         showsRecycler.layoutManager = LinearLayoutManager(this)
         mShowsAdapter = ShowsAdapter(this)
         mShowsAdapter.setListener(this)
@@ -87,11 +99,19 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
     }
 
     private fun getSearchResults(pageNumber: Int = 1) {
+        mInitialView.visibility = View.GONE
         showProgressView()
         mRepo.getSearchResults(object : OnGetSearchResultsCallback {
             override fun onSuccess(pageNumber: Int, totalPages:Int ,shows: ArrayList<Show>) {
                 hideProgressView()
-                mShowsAdapter.setData(shows,pageNumber,totalPages)
+                if (shows.isEmpty()) {
+                    showsRecycler.visibility = View.GONE
+                    mNoResultsView.visibility = View.VISIBLE
+                } else {
+                    mNoResultsView.visibility = View.GONE
+                    showsRecycler.visibility = View.VISIBLE
+                    mShowsAdapter.setData(shows, pageNumber, totalPages)
+                }
             }
             override fun onError() {
                 hideProgressView()

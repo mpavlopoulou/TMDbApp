@@ -4,4 +4,6 @@
     <string name="no_internet_connection_message">No internet connection. Please turn on your Wi-Fi or Mobile Data to use the application. </string>
     <string name="search_hint">Search</string>
     <string name="search_results">Search Results</string>
+    <string name="no_results_found">No results found</string>
+    <string name="initial_text">Search for your favorite movies and TV shows!</string>
 </resources>

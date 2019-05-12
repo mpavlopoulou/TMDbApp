@@ -1,0 +1,19 @@
+<FrameLayout
+		android:id="@+id/progress_view"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/progress_view_background"
+		android:visibility="gone">
+	
+	<com.wang.avi.AVLoadingIndicatorView
+			android:layout_gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			style="@style/AVLoadingIndicatorView"
+			android:visibility="visible"
+			app:indicatorColor="@color/colorPrimaryDark"
+			app:indicatorName="BallSpinFadeLoaderIndicator"/>
+
+</FrameLayout>

@@ -4,25 +4,28 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gr.mpav.tmdbapp.R
 import gr.mpav.tmdbapp.utils.adapters.ShowsAdapter
+import gr.mpav.tmdbapp.utils.adapters.ShowsAdapterListener
+import gr.mpav.tmdbapp.utils.api_calls.OnGetSearchResultsCallback
 import gr.mpav.tmdbapp.utils.api_calls.Show
 import gr.mpav.tmdbapp.utils.api_calls.TMDBRepository
-import gr.mpav.tmdbapp.utils.hideKeyboard
-import gr.mpav.tmdbapp.utils.api_calls.OnGetSearchResultsCallback
+import gr.mpav.tmdbapp.utils.general.hideKeyboard
 
 
-class SearchActivity : BaseActivity(), ShowsAdapter.ItemClickedListener {
+class SearchActivity : BaseActivity(), ShowsAdapterListener {
 
     private lateinit var searchEditText: AppCompatEditText
     private lateinit var showWatchList: ImageView
-    private lateinit var showsRecycler: RecyclerView
 
+    private lateinit var showsRecycler: RecyclerView
     private lateinit var mShowsAdapter: ShowsAdapter
-    private val mRepo:TMDBRepository  = TMDBRepository.instance
+
+    private val mRepo: TMDBRepository = TMDBRepository.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,17 +33,21 @@ class SearchActivity : BaseActivity(), ShowsAdapter.ItemClickedListener {
         setUpViews()
     }
 
-    private fun setUpViews() {
+    override fun setUpViews() {
+        super.setUpViews()
         searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 hideKeyboard(this, currentFocus)
                 if (searchEditText.text!!.isNotEmpty())
-                    performSearchApiCall()
+                {
+                    mShowsAdapter.clearData()
+                    getSearchResults()
+                }
                 true
-            } else {
+            } else
                 false
-            }
+
         }
 
         showWatchList = findViewById(R.id.watchlist_button)
@@ -55,25 +62,30 @@ class SearchActivity : BaseActivity(), ShowsAdapter.ItemClickedListener {
         showsRecycler = findViewById(R.id.shows_recycler)
         showsRecycler.layoutManager = LinearLayoutManager(this)
         mShowsAdapter = ShowsAdapter(this)
-        mShowsAdapter.setItemClickedListener(this)
+        mShowsAdapter.setListener(this)
         showsRecycler.adapter = mShowsAdapter
     }
 
-    override fun itemClicked(item: Show) {
-        TODO("not implemented")
+    override fun onShowSelected(showId: Int,showType:String) {
+        Toast.makeText(this,"Show details",Toast.LENGTH_LONG).show()
     }
 
-    private fun performSearchApiCall() {
-        // todo progree view
-        mRepo.getSearchResults(object : OnGetSearchResultsCallback {
-            override fun onSuccess(shows: ArrayList<Show>) {
-                mShowsAdapter.setData(shows)
-            }
+    override fun loadNextPageShows(pageNumber: Int) {
+        getSearchResults(pageNumber)
+    }
 
-            override fun onError() {
-                // todo
+    private fun getSearchResults(pageNumber: Int = 1) {
+        showProgressView()
+        mRepo.getSearchResults(object : OnGetSearchResultsCallback {
+            override fun onSuccess(pageNumber: Int, totalPages:Int ,shows: ArrayList<Show>) {
+                hideProgressView()
+                mShowsAdapter.setData(shows,pageNumber,totalPages)
             }
-        },searchEditText.text.toString().trim())
+            override fun onError() {
+                hideProgressView()
+                handleServiceExternalFailure()
+            }
+        }, searchEditText.text.toString().trim(), pageNumber)
     }
 
     private fun moveToWatchListScreen(){

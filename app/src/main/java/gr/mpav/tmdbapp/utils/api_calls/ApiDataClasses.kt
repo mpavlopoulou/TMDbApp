@@ -48,10 +48,6 @@ class ShowsResponse {
     @Expose
     var page: Int = 0
 
-    @SerializedName("total_results")
-    @Expose
-    var totalResults: Int = 0
-
     @SerializedName("results")
     @Expose
     var shows: ArrayList<Show> = ArrayList()

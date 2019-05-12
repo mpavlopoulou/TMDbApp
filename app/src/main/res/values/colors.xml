@@ -9,5 +9,6 @@
     <color name="colorSurfaceLight">#607d8b</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+    <color name="progress_view_background">#A6F8F8F8</color>
 
 </resources>

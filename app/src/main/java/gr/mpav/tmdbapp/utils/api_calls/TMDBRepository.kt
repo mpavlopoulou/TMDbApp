@@ -1,6 +1,6 @@
 package gr.mpav.tmdbapp.utils.api_calls
 
-import gr.mpav.tmdbapp.utils.Constants
+import gr.mpav.tmdbapp.utils.general.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +16,7 @@ class TMDBRepository private constructor(private val api: TMDbApi) {
                     if (response.isSuccessful) {
                         val showsResponse = response.body()
                         if (showsResponse?.shows != null) {
-                            callback.onSuccess(showsResponse.shows)
+                            callback.onSuccess(showsResponse.page,showsResponse.totalPages, showsResponse.shows)
                         } else {
                             callback.onError()
                         }

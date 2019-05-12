@@ -1,4 +1,4 @@
-package gr.mpav.tmdbapp.utils
+package gr.mpav.tmdbapp.utils.general
 
 class Constants {
 
@@ -8,5 +8,6 @@ class Constants {
         const val IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500"
         const val MOVIE_TYPE = "movie"
         const val TV_SHOW_TYPE = "tv"
+        const val LOAD_MORE_ITEMS_THRESHOLD = 5
     }
 }

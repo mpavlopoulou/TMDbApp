@@ -1,4 +1,4 @@
-package gr.mpav.tmdbapp.utils
+package gr.mpav.tmdbapp.utils.general
 
 import android.app.Activity
 import android.content.Context

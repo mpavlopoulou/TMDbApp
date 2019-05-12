@@ -7,24 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gr.mpav.tmdbapp.R
-import gr.mpav.tmdbapp.utils.Constants
+import gr.mpav.tmdbapp.utils.general.Constants
 import gr.mpav.tmdbapp.utils.api_calls.Show
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+interface ShowsAdapterListener{
+    fun onShowSelected(showId:Int , showType:String)
+    fun loadNextPageShows(pageNumber: Int)
+}
 
-class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), View.OnClickListener
+class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>()
 {
     private var mShows = ArrayList<Show>()
-    private var mRecyclerView: RecyclerView? = null
-    private var mListener: ItemClickedListener? = null
+    private var mCurrentPage:Int = -1
+    private var mTotalPages:Int = -1
+    private var mListener: ShowsAdapterListener? = null
 
+    fun setListener(listener:ShowsAdapterListener){
+        mListener = listener
+    }
 
     class ViewHolder internal constructor(v: View) : RecyclerView.ViewHolder(v) {
         internal var mPosterImageView: ImageView = v.findViewById(R.id.item_show_poster)
@@ -32,19 +41,13 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         internal var mTitle: TextView = v.findViewById(R.id.item_show_title)
         internal var mOverView: TextView = v.findViewById(R.id.overview_text)
         internal var mRatings: TextView = v.findViewById(R.id.item_show_rating)
+        internal var mCard:CardView = v.findViewById(R.id.card_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.show_item_layout, parent, false)
-        v.setOnClickListener(this)
         return ViewHolder(v)
-    }
-
-    fun setData(shows: ArrayList<Show>)
-    {
-        mShows = shows
-        notifyDataSetChanged()
     }
 
     @SuppressLint("CheckResult")
@@ -84,27 +87,44 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
 
         holder.mRatings.text = show.rating.toString()
         holder.mOverView.text = show.overview
+
+        // Check if we need to load next page shows
+        if(position == mShows.size - Constants.LOAD_MORE_ITEMS_THRESHOLD && mCurrentPage!= mTotalPages){
+            mListener?.loadNextPageShows(mCurrentPage+1)
+        }
+
+        holder.mCard.setOnClickListener {
+            mListener?.onShowSelected(mShows[holder.adapterPosition].id,mShows[holder.adapterPosition].mediaType)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return mShows.size
     }
 
-    override fun onClick(v: View) {
-        val position = mRecyclerView?.getChildAdapterPosition(v)
-        mListener!!.itemClicked(mShows[position ?: 0])
+    fun setData(shows: ArrayList<Show>,pageNumber:Int, totalPages:Int)
+    {
+        if(mCurrentPage ==-1){
+            mShows = shows
+            mCurrentPage = pageNumber
+            mTotalPages = totalPages
+            notifyDataSetChanged()
+        }
+        else
+            appendShows(pageNumber,shows)
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        mRecyclerView = recyclerView
+    fun clearData(){
+        mShows.clear()
+        mCurrentPage = -1
+        mTotalPages = -1
+        notifyDataSetChanged()
     }
 
-    fun setItemClickedListener(listener: ItemClickedListener) {
-        mListener = listener
-    }
-
-    interface ItemClickedListener {
-        fun itemClicked(item: Show)
+    fun appendShows(pageNumber: Int, showsToAppend: ArrayList<Show>) {
+        mCurrentPage = pageNumber
+        mShows.addAll(showsToAppend)
+        notifyDataSetChanged()
     }
 }

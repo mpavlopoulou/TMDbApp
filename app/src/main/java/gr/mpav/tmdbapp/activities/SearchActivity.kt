@@ -14,6 +14,7 @@ import gr.mpav.tmdbapp.utils.adapters.ShowsAdapterListener
 import gr.mpav.tmdbapp.utils.api_calls.OnGetSearchResultsCallback
 import gr.mpav.tmdbapp.utils.api_calls.Show
 import gr.mpav.tmdbapp.utils.api_calls.TMDBRepository
+import gr.mpav.tmdbapp.utils.general.Constants.Companion.SEARCH_TERM
 import gr.mpav.tmdbapp.utils.general.hideKeyboard
 
 
@@ -30,16 +31,16 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        setUpViews()
+        setUpViews(savedInstanceState)
     }
 
-    override fun setUpViews() {
+    fun setUpViews(savedInstanceState: Bundle?) {
         super.setUpViews()
         searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 hideKeyboard(this, currentFocus)
-                if (searchEditText.text!!.isNotEmpty())
+                if (searchEditText.text.toString().isNotEmpty())
                 {
                     mShowsAdapter.clearData()
                     getSearchResults()
@@ -56,7 +57,18 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
         }
 
         setUpShowsRecycler()
+
+        setSaveInstanceStateData(savedInstanceState)
     }
+
+    private fun setSaveInstanceStateData(savedInstanceState: Bundle?) {
+        searchEditText.setText(savedInstanceState?.getString(SEARCH_TERM))
+        if (searchEditText.text.toString().isNotEmpty()) {
+            mShowsAdapter.clearData()
+            getSearchResults()
+        }
+    }
+
 
     private fun setUpShowsRecycler(){
         showsRecycler = findViewById(R.id.shows_recycler)
@@ -86,6 +98,11 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
                 handleServiceExternalFailure()
             }
         }, searchEditText.text.toString().trim(), pageNumber)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(SEARCH_TERM, searchEditText.text.toString())
+        super.onSaveInstanceState(outState)
     }
 
     private fun moveToWatchListScreen(){

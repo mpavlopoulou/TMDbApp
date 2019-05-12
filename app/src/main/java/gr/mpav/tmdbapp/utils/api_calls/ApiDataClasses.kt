@@ -13,6 +13,10 @@ class Show {
     @Expose
     var movieTitle: String = ""
 
+    @SerializedName("overview")
+    @Expose
+    var overview: String = ""
+
     @SerializedName("name")
     @Expose
     var tvShowName: String = ""

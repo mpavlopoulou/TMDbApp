@@ -1,5 +1,6 @@
 package gr.mpav.tmdbapp.utils.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,13 @@ import com.bumptech.glide.request.RequestOptions
 import gr.mpav.tmdbapp.R
 import gr.mpav.tmdbapp.utils.Constants
 import gr.mpav.tmdbapp.utils.api_calls.Show
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ShowsAdapter (val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), View.OnClickListener
+
+class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), View.OnClickListener
 {
     private var mShows = ArrayList<Show>()
     private var mRecyclerView: RecyclerView? = null
@@ -24,7 +30,7 @@ class ShowsAdapter (val context: Context) : RecyclerView.Adapter<ShowsAdapter.Vi
         internal var mPosterImageView: ImageView = v.findViewById(R.id.item_show_poster)
         internal var mReleaseDate: TextView = v.findViewById(R.id.item_show_release_date)
         internal var mTitle: TextView = v.findViewById(R.id.item_show_title)
-        internal var mMediaType: TextView = v.findViewById(R.id.item_media_type)
+        internal var mOverView: TextView = v.findViewById(R.id.overview_text)
         internal var mRatings: TextView = v.findViewById(R.id.item_show_rating)
     }
 
@@ -41,28 +47,43 @@ class ShowsAdapter (val context: Context) : RecyclerView.Adapter<ShowsAdapter.Vi
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-    {
+    @SuppressLint("CheckResult")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val show = mShows[position]
 
+        // Image
         val requestOptions = RequestOptions()
         requestOptions.placeholder(R.drawable.ic_show_icon)
         requestOptions.error(R.drawable.ic_show_icon)
         requestOptions.centerCrop()
         Glide.with(context).setDefaultRequestOptions(requestOptions).load(Constants.IMAGE_BASE_URL+"/"+show.posterPath).into(holder.mPosterImageView)
 
-        if(show.mediaType == Constants.MOVIE_TYPE){
-            holder.mReleaseDate.text = show.movieReleaseDate.split("-")[0]
-            holder.mTitle.text = show.movieTitle
-        }
+        // Release date
+        val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val showFormat = SimpleDateFormat("MMM dd , yyyy", Locale.ENGLISH)
+        val apiDateValue = if (show.mediaType == Constants.MOVIE_TYPE)
+            show.movieReleaseDate
         else
-        {
-            holder.mReleaseDate.text = show.tvShowFirstAirDate.split("-")[0]
-            holder.mTitle.text = show.tvShowName
+            show.tvShowFirstAirDate
+        try {
+            val date = apiFormat.parse(apiDateValue)
+            holder.mReleaseDate.text = showFormat.format(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
         }
 
+
+        if(show.mediaType == Constants.MOVIE_TYPE){
+            holder.mTitle.text = show.movieTitle
+            holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_movie_type, 0, 0, 0)
+        } else {
+            holder.mTitle.text = show.tvShowName
+            holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tv_show_type, 0, 0, 0)
+        }
+        holder.mTitle.compoundDrawablePadding = 8
+
         holder.mRatings.text = show.rating.toString()
-        holder.mMediaType.text = show.mediaType
+        holder.mOverView.text = show.overview
     }
 
     override fun getItemCount(): Int {

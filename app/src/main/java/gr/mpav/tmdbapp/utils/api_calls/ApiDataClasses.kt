@@ -63,7 +63,7 @@ class Genre {
     var name: String = ""
 }
 
-class MovieDetails{
+class ShowDetails{
     @SerializedName("backdrop_path")
     @Expose
     var backdropPath: String = ""
@@ -74,7 +74,11 @@ class MovieDetails{
 
     @SerializedName("title")
     @Expose
-    var title: String = ""
+    var movieTitle: String = ""
+
+    @SerializedName("name")
+    @Expose
+    var tvShowTitle: String = ""
 
     @SerializedName("vote_average")
     @Expose
@@ -84,35 +88,9 @@ class MovieDetails{
     @Expose
     var movieReleaseDate: String = ""
 
-    @SerializedName("overview")
-    @Expose
-    var overview: String = ""
-
-    @SerializedName("genres")
-    @Expose
-    var genres: ArrayList<Genre> = ArrayList()
-}
-
-class TVShowDetails{
-    @SerializedName("backdrop_path")
-    @Expose
-    var backdropPath: String = ""
-
-    @SerializedName("poster_path")
-    @Expose
-    var posterPath: String = ""
-
-    @SerializedName("name")
-    @Expose
-    var title: String = ""
-
-    @SerializedName("vote_average")
-    @Expose
-    var rating: Float = 0.toFloat()
-
     @SerializedName("first_air_date")
     @Expose
-    var movieReleaseDate: String = ""
+    var tvShowReleaseDate: String = ""
 
     @SerializedName("overview")
     @Expose
@@ -124,24 +102,12 @@ class TVShowDetails{
 }
 
 class ShowVideo{
-    @SerializedName("id")
-    @Expose
-    var id: String = ""
-
     @SerializedName("key")
     @Expose
     var key: String = ""
-
-    @SerializedName("site")
-    @Expose
-    var site: String = ""
 }
 
 class VideosResponse{
-    @SerializedName("id")
-    @Expose
-    var id: Int = 0
-
     @SerializedName("results")
     @Expose
     var videos: ArrayList<ShowVideo> = ArrayList()

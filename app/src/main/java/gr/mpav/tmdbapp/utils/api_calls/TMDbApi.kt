@@ -15,27 +15,18 @@ interface TMDbApi {
         @Query("page") page: Int = 1
     ): Call<ShowsResponse>
 
-    @GET("movie/{movie_id}")
-    fun getMovieDetails(
-        @Path("movie_id") id: Int,
+    @GET("{show_type}/{show_id}")
+    fun getShowDetails(
+        @Path("show_type") show_type: String,
+        @Path("show_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Call<MovieDetails>
+    ): Call<ShowDetails>
 
-    @GET("tv/{tv_show_id}")
-    fun getTVShowDetails(
-        @Path("tv_show_id") id: Int,
-        @Query("api_key") apiKey: String
-    ): Call<TVShowDetails>
-
-    @GET("movie/{movie_id}/videos")
-    fun getMovieVideos(
-        @Path("movie_id") id: Int,
+    @GET("{show_type}/{show_id}/videos")
+    fun getShowVideos(
+        @Path("show_type") show_type: String,
+        @Path("show_id") id: Int,
         @Query("api_key") apiKey: String
     ): Call<VideosResponse>
 
-    @GET("tv/{tv_show_id}/videos")
-    fun getTVShowVideos(
-        @Path("tv_show_id") id: Int,
-        @Query("api_key") apiKey: String
-    ): Call<VideosResponse>
 }

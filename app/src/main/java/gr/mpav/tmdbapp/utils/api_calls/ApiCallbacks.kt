@@ -6,13 +6,8 @@ interface OnGetSearchResultsCallback {
     fun onError()
 }
 
-interface OnGetMovieDetailsCallback{
-    fun onSuccess(movieDetails:MovieDetails)
-    fun onError()
-}
-
-interface OnGetTVShowDetailsCallback{
-    fun onSuccess(tvShowDetails:TVShowDetails)
+interface OnGetShowDetailsCallback{
+    fun onSuccess(showDetails:ShowDetails)
     fun onError()
 }
 

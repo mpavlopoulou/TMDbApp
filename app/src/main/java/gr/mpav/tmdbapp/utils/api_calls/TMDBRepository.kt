@@ -31,14 +31,14 @@ class TMDBRepository private constructor(private val api: TMDbApi) {
             })
     }
 
-    fun getMovieDetails(callback: OnGetMovieDetailsCallback, movieId: Int) {
-        api.getMovieDetails(movieId, Constants.MDB_API_KEY)
-            .enqueue(object : Callback<MovieDetails> {
-                override fun onResponse(call: Call<MovieDetails>, response: Response<MovieDetails>) {
+    fun getShowDetails(callback: OnGetShowDetailsCallback, showType: String, showId:Int) {
+        api.getShowDetails(showType,showId, Constants.MDB_API_KEY)
+            .enqueue(object : Callback<ShowDetails> {
+                override fun onResponse(call: Call<ShowDetails>, response: Response<ShowDetails>) {
                     if (response.isSuccessful) {
-                        val movieDetails = response.body()
-                        if (movieDetails != null) {
-                            callback.onSuccess(movieDetails)
+                        val showDetails = response.body()
+                        if (showDetails != null) {
+                            callback.onSuccess(showDetails)
                         } else {
                             callback.onError()
                         }
@@ -47,58 +47,14 @@ class TMDBRepository private constructor(private val api: TMDbApi) {
                     }
                 }
 
-                override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
+                override fun onFailure(call: Call<ShowDetails>, t: Throwable) {
                     callback.onError()
                 }
             })
     }
 
-    fun getTVShowDetails(callback: OnGetTVShowDetailsCallback, tvShowId: Int) {
-        api.getTVShowDetails(tvShowId, Constants.MDB_API_KEY)
-            .enqueue(object : Callback<TVShowDetails> {
-                override fun onResponse(call: Call<TVShowDetails>, response: Response<TVShowDetails>) {
-                    if (response.isSuccessful) {
-                        val tvShowDetails = response.body()
-                        if (tvShowDetails != null) {
-                            callback.onSuccess(tvShowDetails)
-                        } else {
-                            callback.onError()
-                        }
-                    } else {
-                        callback.onError()
-                    }
-                }
-
-                override fun onFailure(call: Call<TVShowDetails>, t: Throwable) {
-                    callback.onError()
-                }
-            })
-    }
-
-    fun getMovieVideos(callback: OnGetShowVideosCallback, movieId: Int) {
-        api.getMovieVideos(movieId, Constants.MDB_API_KEY)
-            .enqueue(object : Callback<VideosResponse> {
-                override fun onResponse(call: Call<VideosResponse>, response: Response<VideosResponse>) {
-                    if (response.isSuccessful) {
-                        val videos = response.body()
-                        if (videos?.videos != null) {
-                            callback.onSuccess(videos.videos)
-                        } else {
-                            callback.onError()
-                        }
-                    } else {
-                        callback.onError()
-                    }
-                }
-
-                override fun onFailure(call: Call<VideosResponse>, t: Throwable) {
-                    callback.onError()
-                }
-            })
-    }
-
-    fun getTVShowVideos(callback: OnGetShowVideosCallback, tvShowId: Int) {
-        api.getTVShowVideos(tvShowId, Constants.MDB_API_KEY)
+    fun getShowVideos(callback: OnGetShowVideosCallback, showType: String, showId:Int) {
+        api.getShowVideos(showType,showId, Constants.MDB_API_KEY)
             .enqueue(object : Callback<VideosResponse> {
                 override fun onResponse(call: Call<VideosResponse>, response: Response<VideosResponse>) {
                     if (response.isSuccessful) {

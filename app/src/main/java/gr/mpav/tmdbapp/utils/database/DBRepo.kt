@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import gr.mpav.tmdbapp.utils.adapters.ShowAdapterItem
 
-class DbRepo(val context: Context) {
+class DbRepo(private val context: Context) {
 
     fun isShowInWatchlist(showId: Int): Boolean {
         var showID: Int = -1

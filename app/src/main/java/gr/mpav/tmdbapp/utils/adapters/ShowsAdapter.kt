@@ -119,7 +119,7 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         notifyDataSetChanged()
     }
 
-    fun appendShows(pageNumber: Int, showsToAppend: ArrayList<ShowAdapterItem>) {
+    private fun appendShows(pageNumber: Int, showsToAppend: ArrayList<ShowAdapterItem>) {
         mCurrentPage = pageNumber
         mShows.addAll(showsToAppend)
         notifyDataSetChanged()

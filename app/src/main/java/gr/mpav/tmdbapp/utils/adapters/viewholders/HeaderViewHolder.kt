@@ -1,7 +1,6 @@
 package gr.mpav.tmdbapp.utils.adapters.viewholders
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView

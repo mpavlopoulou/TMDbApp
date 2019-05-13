@@ -34,7 +34,7 @@ class DetailsActivity : BaseActivity() {
         mToolbar = findViewById(R.id.mainToolbar)
         mDetailsRecycler = findViewById(R.id.show_details_recycler)
         mDetailsRecycler.layoutManager = LinearLayoutManager(this)
-        mAdapter = DetailsAdapter(this)
+        mAdapter = DetailsAdapter()
         mDetailsRecycler.adapter = mAdapter
     }
 

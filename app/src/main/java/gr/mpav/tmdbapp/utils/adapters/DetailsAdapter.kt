@@ -1,6 +1,5 @@
 package gr.mpav.tmdbapp.utils.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import gr.mpav.tmdbapp.R
 import gr.mpav.tmdbapp.utils.adapters.viewholders.*
 
-class DetailsAdapter (val context: Context) :RecyclerView.Adapter<RecyclerView.ViewHolder>(), TrailerInterface {
+class DetailsAdapter :RecyclerView.Adapter<RecyclerView.ViewHolder>(), TrailerInterface {
 
     override fun onVideoViewInitialized(youtubePlayerView: YouTubePlayerView) {
         this.youtubePlayerView = youtubePlayerView

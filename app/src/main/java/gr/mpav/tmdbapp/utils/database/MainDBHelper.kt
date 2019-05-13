@@ -22,14 +22,4 @@ class MainDBHelper @JvmOverloads constructor(context: Context, dbName: String = 
         db.execSQL("drop table if exists "+DBSchema.WATCHLIST_TABLE)
         onCreate(db)
     }
-
-    fun clearDatabase(db: SQLiteDatabase)
-    {
-        clearTableData(db,DBSchema.WATCHLIST_TABLE)
-    }
-
-    private fun clearTableData(db: SQLiteDatabase,dbTableName:String)
-    {
-        db.execSQL("DELETE FROM $dbTableName")
-    }
 }

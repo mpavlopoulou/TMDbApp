@@ -9,16 +9,6 @@ import android.view.inputmethod.InputMethodManager
 
 // ------------ General UI Utils ------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------------------
-fun toDP(context: Context, size: Int): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size.toFloat(), context.resources.displayMetrics).toInt()
-}
-
-fun toSP(context: Context, size: Int): Int {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_SP,
-        size.toFloat(),
-        context.resources.displayMetrics).toInt()
-}
 
 fun dip2px(context: Context, dpValue: Float): Int {
     val metrics = context.resources.displayMetrics

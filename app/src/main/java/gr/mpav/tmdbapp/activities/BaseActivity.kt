@@ -18,8 +18,8 @@ import gr.mpav.tmdbapp.utils.general.sp2px
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity()
 {
-    protected lateinit var mProgressView: FrameLayout
-    protected lateinit var mCoordinatorLayout: CoordinatorLayout
+    private lateinit var mProgressView: FrameLayout
+    private lateinit var mCoordinatorLayout: CoordinatorLayout
 
     protected open fun setUpViews(){
         mProgressView = findViewById(R.id.progress_view)
@@ -45,7 +45,7 @@ open class BaseActivity : AppCompatActivity()
         showSnackbar(errorMessage)
     }
 
-    fun showSnackbar(message: String, backgroundColor: Int = ContextCompat.getColor(this, android.R.color.holo_red_dark), textColor: Int = ContextCompat.getColor(this,android.R.color.white))
+    private fun showSnackbar(message: String, backgroundColor: Int = ContextCompat.getColor(this, android.R.color.holo_red_dark), textColor: Int = ContextCompat.getColor(this,android.R.color.white))
     {
         val snackbar = Snackbar.make(mCoordinatorLayout, message, Snackbar.LENGTH_LONG)
         snackbar.view.setBackgroundColor(backgroundColor)

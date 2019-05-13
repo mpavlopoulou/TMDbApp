@@ -2,6 +2,7 @@ package gr.mpav.tmdbapp.utils.database
 
 import android.content.ContentValues
 import android.content.Context
+import gr.mpav.tmdbapp.utils.adapters.ShowAdapterItem
 
 class DbRepo(val context: Context) {
 
@@ -60,5 +61,57 @@ class DbRepo(val context: Context) {
         }
     }
 
+    fun isWatchlistEmpty(): Boolean {
+        var result = true
+        MainDBHelper(context).use { dbHelper ->
+            dbHelper.readableDatabase.use {
+
+                val query = "select * from " + DBSchema.WATCHLIST_TABLE
+                val cursor = it.rawQuery(query, null)
+                if (cursor != null && cursor.moveToFirst()) {
+                    try {
+                        result = false
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                cursor?.close()
+            }
+        }
+        return result
+    }
+
+    fun getWatchlistItems(titleFilter:String = ""):ArrayList<ShowAdapterItem>{
+        val items: ArrayList<ShowAdapterItem> = ArrayList()
+
+        MainDBHelper(context).use { dbHelper ->
+            dbHelper.readableDatabase.use {
+
+                val query = "select * from " + DBSchema.WATCHLIST_TABLE +
+                        " where Title like \"%$titleFilter%\" "
+
+                val cursor = it.rawQuery(query, null)
+                if (cursor != null && cursor.moveToFirst()) {
+                    try {
+                        do {
+                            items.add(ShowAdapterItem(cursor.getInt(cursor.getColumnIndex("Id")),
+                                cursor.getString(cursor.getColumnIndex("PosterPath")),
+                                cursor.getString(cursor.getColumnIndex("ReleaseDate")),
+                                cursor.getString(cursor.getColumnIndex("ShowType")),
+                                cursor.getString(cursor.getColumnIndex("Title")),
+                                cursor.getDouble(cursor.getColumnIndex("VoteAverage")).toFloat(),
+                                cursor.getString(cursor.getColumnIndex("Overview"))))
+                        } while (cursor.moveToNext())
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                cursor?.close()
+            }
+        }
+        return items
+
+
+    }
 
 }

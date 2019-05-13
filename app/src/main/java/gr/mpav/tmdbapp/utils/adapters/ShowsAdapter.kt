@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gr.mpav.tmdbapp.R
 import gr.mpav.tmdbapp.utils.general.Constants
-import gr.mpav.tmdbapp.utils.api_calls.Show
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,9 +23,12 @@ interface ShowsAdapterListener{
     fun loadNextPageShows(pageNumber: Int)
 }
 
+data class ShowAdapterItem(val id:Int, val posterPath:String, val releaseDate:String, val mediaType:String, val title:String, val rating:Float,
+                           val overview:String)
+
 class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>()
 {
-    private var mShows = ArrayList<Show>()
+    private var mShows = ArrayList<ShowAdapterItem>()
     private var mCurrentPage:Int = -1
     private var mTotalPages:Int = -1
     private var mListener: ShowsAdapterListener? = null
@@ -64,25 +66,20 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         // Release date
         val apiFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val showFormat = SimpleDateFormat("MMM dd , yyyy", Locale.ENGLISH)
-        val apiDateValue = if (show.mediaType == Constants.MOVIE_TYPE)
-            show.movieReleaseDate
-        else
-            show.tvShowFirstAirDate
+
         try {
-            val date = apiFormat.parse(apiDateValue)
+            val date = apiFormat.parse(show.releaseDate)
             holder.mReleaseDate.text = showFormat.format(date)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
 
 
-        if(show.mediaType == Constants.MOVIE_TYPE){
-            holder.mTitle.text = show.movieTitle
+        holder.mTitle.text = show.title
+        if(show.mediaType == Constants.MOVIE_TYPE)
             holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_movie_type, 0, 0, 0)
-        } else {
-            holder.mTitle.text = show.tvShowName
+        else
             holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tv_show_type, 0, 0, 0)
-        }
         holder.mTitle.compoundDrawablePadding = 8
 
         holder.mRatings.text = show.rating.toString()
@@ -103,7 +100,7 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         return mShows.size
     }
 
-    fun setData(shows: ArrayList<Show>,pageNumber:Int, totalPages:Int)
+    fun setData(shows: ArrayList<ShowAdapterItem>,pageNumber:Int, totalPages:Int)
     {
         if(mCurrentPage ==-1){
             mShows = shows
@@ -122,7 +119,7 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         notifyDataSetChanged()
     }
 
-    fun appendShows(pageNumber: Int, showsToAppend: ArrayList<Show>) {
+    fun appendShows(pageNumber: Int, showsToAppend: ArrayList<ShowAdapterItem>) {
         mCurrentPage = pageNumber
         mShows.addAll(showsToAppend)
         notifyDataSetChanged()

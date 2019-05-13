@@ -1,5 +1,6 @@
 package gr.mpav.tmdbapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -15,12 +16,12 @@ import gr.mpav.tmdbapp.utils.adapters.ShowsAdapterListener
 import gr.mpav.tmdbapp.utils.api_calls.OnGetSearchResultsCallback
 import gr.mpav.tmdbapp.utils.api_calls.Show
 import gr.mpav.tmdbapp.utils.api_calls.TMDBRepository
+import gr.mpav.tmdbapp.utils.api_calls.getShowItems
+import gr.mpav.tmdbapp.utils.database.DBShow
+import gr.mpav.tmdbapp.utils.database.DbRepo
+import gr.mpav.tmdbapp.utils.general.Constants
 import gr.mpav.tmdbapp.utils.general.Constants.Companion.SEARCH_TERM
 import gr.mpav.tmdbapp.utils.general.hideKeyboard
-import android.content.Intent
-import gr.mpav.tmdbapp.utils.database.DBShow
-import gr.mpav.tmdbapp.utils.database.MainDBHelper
-import gr.mpav.tmdbapp.utils.general.Constants
 
 
 class SearchActivity : BaseActivity(), ShowsAdapterListener {
@@ -69,10 +70,19 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
         showWatchList.setOnClickListener {
             moveToWatchListScreen()
         }
+        setWatchlistButtonVisibility()
 
         setUpShowsRecycler()
 
         setSaveInstanceStateData(savedInstanceState)
+    }
+
+    private fun setWatchlistButtonVisibility() {
+        val dbRepo = DbRepo(this)
+        if (dbRepo.isWatchlistEmpty())
+            showWatchList.visibility = View.GONE
+        else
+            showWatchList.visibility = View.VISIBLE
     }
 
     private fun setSaveInstanceStateData(savedInstanceState: Bundle?) {
@@ -115,7 +125,7 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
                 } else {
                     mNoResultsView.visibility = View.GONE
                     showsRecycler.visibility = View.VISIBLE
-                    mShowsAdapter.setData(shows, pageNumber, totalPages)
+                    mShowsAdapter.setData(getShowItems(shows), pageNumber, totalPages)
                 }
             }
             override fun onError() {
@@ -130,7 +140,13 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
         super.onSaveInstanceState(outState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        setWatchlistButtonVisibility()
+    }
+
     private fun moveToWatchListScreen(){
-        TODO("not implemented")
+        val watchlistIntent = Intent(this, WatchlistActivity::class.java)
+        startActivity(watchlistIntent)
     }
 }

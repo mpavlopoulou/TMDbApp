@@ -94,7 +94,8 @@ class DetailsActivity : BaseActivity() {
         adapterData.add(HeaderItem(mDBShow.BackdropPath,mDBShow.PosterPath,mDBShow.Title,mDBShow.ReleaseDate,mDBShow.VoteAverage,mDBShow.Genre))
         adapterData.add(WatchListItem(mDBShow))
         adapterData.add(DescriptionItem(mDBShow.Overview))
-        adapterData.add(TrailerItem(mDBShow.TrailerKey))
+        if(mDBShow.TrailerKey != null && mDBShow.TrailerKey!!.isNotEmpty())
+            adapterData.add(TrailerItem(mDBShow.TrailerKey!!))
         mAdapter.setData(adapterData)
     }
 

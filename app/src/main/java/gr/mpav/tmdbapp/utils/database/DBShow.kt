@@ -12,5 +12,5 @@ data class DBShow(
     var ReleaseDate:String = "",
     var Overview:String = "",
     var Genre:String = "",
-    var TrailerKey:String = ""
+    var TrailerKey:String? = ""
 ): Serializable

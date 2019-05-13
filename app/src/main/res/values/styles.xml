@@ -12,6 +12,7 @@
 
     <style name="Widget.MaterialComponents.Toolbar.MDBToolbar">
         <item name="titleTextColor">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
     <style name="SearchView">

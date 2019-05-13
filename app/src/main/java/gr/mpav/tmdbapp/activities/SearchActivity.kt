@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import gr.mpav.tmdbapp.utils.api_calls.Show
 import gr.mpav.tmdbapp.utils.api_calls.TMDBRepository
 import gr.mpav.tmdbapp.utils.general.Constants.Companion.SEARCH_TERM
 import gr.mpav.tmdbapp.utils.general.hideKeyboard
+import android.content.Intent
 
 
 class SearchActivity : BaseActivity(), ShowsAdapterListener {
@@ -91,7 +91,10 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
     }
 
     override fun onShowSelected(showId: Int,showType:String) {
-        Toast.makeText(this,"Show details",Toast.LENGTH_LONG).show()
+        val detailsIntent = Intent(this, DetailsActivity::class.java)
+        detailsIntent.putExtra("showId", showId)
+        detailsIntent.putExtra("showType", showType)
+        startActivity(detailsIntent)
     }
 
     override fun loadNextPageShows(pageNumber: Int) {

@@ -6,4 +6,7 @@
     <string name="search_results">Search Results</string>
     <string name="no_results_found">No results found</string>
     <string name="initial_text">Search for your favorite movies and TV shows!</string>
+    <string name="trailer">TRAILER</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="add_to_watchlist">Add to watchlist</string>
 </resources>

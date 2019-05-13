@@ -25,4 +25,11 @@
         <item name="android:drawablePadding">8dp</item>
     </style>
 
+    <style name="ChipStyle">
+        <item name="chipBackgroundColor">@color/colorSurfaceLight</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
 </resources>

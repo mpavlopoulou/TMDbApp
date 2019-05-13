@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_to_watchlist_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="@color/colorSurfaceLight"
+            android:textColor="@android:color/white"
+            android:text="@string/add_to_watchlist"
+            android:textAllCaps="true"
+            android:textSize="15sp"
+            app:cornerRadius="4dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:layout_margin="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

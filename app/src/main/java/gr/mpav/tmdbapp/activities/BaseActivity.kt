@@ -26,7 +26,9 @@ open class BaseActivity : AppCompatActivity()
         mCoordinatorLayout = findViewById(R.id.coordinator_layout)
     }
 
+    // Handle progress view visibility
     protected fun showProgressView(){
+        // While the progress view is visible , the screen is not touchable
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         mProgressView.visibility = View.VISIBLE
     }
@@ -36,6 +38,7 @@ open class BaseActivity : AppCompatActivity()
         mProgressView.visibility = View.GONE
     }
 
+    // Handle api calls failure (check for network connectivity)
     protected fun handleServiceExternalFailure(){
         hideProgressView()
         val errorMessage: String = if (isNetworkConnected(this))

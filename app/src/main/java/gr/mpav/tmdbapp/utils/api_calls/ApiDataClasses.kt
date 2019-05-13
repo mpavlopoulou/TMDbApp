@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import gr.mpav.tmdbapp.utils.adapters.ShowAdapterItem
 import gr.mpav.tmdbapp.utils.general.Constants
 
-
+// Utility function which converts api response Show list to ShowAdapterItem list
 fun getShowItems(shows: ArrayList<Show>): ArrayList<ShowAdapterItem> {
     val result: ArrayList<ShowAdapterItem> = ArrayList()
     for (show in shows) {
@@ -67,6 +67,7 @@ class Show {
     var mediaType: String? = ""
 }
 
+// Data class used to retrieve response from search api call
 class ShowsResponse {
 
     @SerializedName("page")
@@ -88,6 +89,7 @@ class Genre {
     var name: String = ""
 }
 
+// Data class used to retrieve response from details api call
 class ShowDetails{
     @SerializedName("backdrop_path")
     @Expose
@@ -132,6 +134,7 @@ class ShowVideo{
     var key: String = ""
 }
 
+// Data class used to retrieve response from videos api call
 class VideosResponse{
     @SerializedName("results")
     @Expose

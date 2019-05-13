@@ -27,6 +27,7 @@ class TrailerViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
             override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
                 val videoId = trailerItem.key
                 youTubePlayer.cueVideo(videoId, 0f)
+                // save trailer view to the adapter in order to release it when the trailer view is recycled
                 mListner?.onVideoViewInitialized(youtubePlayerView)
             }
         })

@@ -33,6 +33,7 @@ class DetailsAdapter :RecyclerView.Adapter<RecyclerView.ViewHolder>(), TrailerIn
         youtubePlayerView?.release()
     }
 
+    // Different layout types are used for every show detail section
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
         val view: View

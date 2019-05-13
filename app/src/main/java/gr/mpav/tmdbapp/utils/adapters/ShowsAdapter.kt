@@ -29,6 +29,7 @@ data class ShowAdapterItem(val id:Int, val posterPath:String, val releaseDate:St
 class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>()
 {
     private var mShows = ArrayList<ShowAdapterItem>()
+    // Used for pagination
     private var mCurrentPage:Int = -1
     private var mTotalPages:Int = -1
     private var mListener: ShowsAdapterListener? = null
@@ -85,7 +86,8 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
         holder.mRatings.text = show.rating.toString()
         holder.mOverView.text = show.overview
 
-        // Check if we need to load next page shows
+        // If the item position is LOAD_MORE_ITEMS_THRESHOLD items before the end of the list , start loading the
+        // next page of the results if we have not reached the last page yet
         if(position == mShows.size - Constants.LOAD_MORE_ITEMS_THRESHOLD && mCurrentPage!= mTotalPages){
             mListener?.loadNextPageShows(mCurrentPage+1)
         }
@@ -102,12 +104,14 @@ class ShowsAdapter(private val context: Context) : RecyclerView.Adapter<ShowsAda
 
     fun setData(shows: ArrayList<ShowAdapterItem>,pageNumber:Int, totalPages:Int)
     {
+        // If we are upon data initialization , set mTotalPages as returned by the api call
         if(mCurrentPage ==-1){
             mShows = shows
             mCurrentPage = pageNumber
             mTotalPages = totalPages
             notifyDataSetChanged()
         }
+        // Next page data have been collected , so add them to the end of the current list
         else
             appendShows(pageNumber,shows)
     }

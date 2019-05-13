@@ -51,6 +51,7 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
         mInitialView = findViewById(R.id.initial_view)
         mInitialView.visibility = View.VISIBLE
 
+        // Search for shows when enter is pressed
         searchEditText = findViewById(R.id.search_edit_text)
         searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
@@ -85,6 +86,7 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
             showWatchList.visibility = View.VISIBLE
     }
 
+    // Restore search term upon activity recreation on orientation change
     private fun setSaveInstanceStateData(savedInstanceState: Bundle?) {
         searchEditText.setText(savedInstanceState?.getString(SEARCH_TERM))
         if (searchEditText.text.toString().isNotEmpty()) {

@@ -90,6 +90,7 @@ class DetailsActivity : BaseActivity() {
     }
 
     private fun setAdapterData(){
+        // Show details are divided in sections , as different adapter items
         val adapterData:ArrayList<DetailAdapterItem> = ArrayList()
         adapterData.add(HeaderItem(mDBShow.BackdropPath,mDBShow.PosterPath,mDBShow.Title,mDBShow.ReleaseDate,mDBShow.VoteAverage,mDBShow.Genre))
         adapterData.add(WatchListItem(mDBShow))
@@ -100,6 +101,7 @@ class DetailsActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        // release the YouTubePlayerView when we are not using it, by calling YouTubePlayerView.release()
         super.onDestroy()
         mAdapter.releaseTrailerListeners()
     }

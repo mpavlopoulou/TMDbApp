@@ -75,6 +75,7 @@ class TMDBRepository private constructor(private val api: TMDbApi) {
             })
     }
 
+    // Singleton TMDBRepository
     companion object {
 
         private var repository: TMDBRepository? = null

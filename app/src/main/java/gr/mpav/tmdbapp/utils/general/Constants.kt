@@ -10,5 +10,7 @@ class Constants {
         const val TV_SHOW_TYPE = "tv"
         const val LOAD_MORE_ITEMS_THRESHOLD = 5
         const val SEARCH_TERM = "search_term"
+        const val SHOW_ID = "show_id"
+        const val SHOW_TYPE = "show_type"
     }
 }

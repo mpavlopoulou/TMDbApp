@@ -92,7 +92,7 @@ class DetailsActivity : BaseActivity() {
     private fun setAdapterData(){
         val adapterData:ArrayList<DetailAdapterItem> = ArrayList()
         adapterData.add(HeaderItem(mDBShow.BackdropPath,mDBShow.PosterPath,mDBShow.Title,mDBShow.ReleaseDate,mDBShow.VoteAverage,mDBShow.Genre))
-        // todo add whislist
+        adapterData.add(WatchListItem(mDBShow))
         adapterData.add(DescriptionItem(mDBShow.Overview))
         adapterData.add(TrailerItem(mDBShow.TrailerKey))
         mAdapter.setData(adapterData)

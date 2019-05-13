@@ -19,6 +19,7 @@ import gr.mpav.tmdbapp.utils.general.Constants.Companion.SEARCH_TERM
 import gr.mpav.tmdbapp.utils.general.hideKeyboard
 import android.content.Intent
 import gr.mpav.tmdbapp.utils.database.DBShow
+import gr.mpav.tmdbapp.utils.database.MainDBHelper
 import gr.mpav.tmdbapp.utils.general.Constants
 
 

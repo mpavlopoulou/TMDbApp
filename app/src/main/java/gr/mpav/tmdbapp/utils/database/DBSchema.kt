@@ -11,14 +11,11 @@ class DBSchema {
             val createTableBooklet = "CREATE TABLE "+WATCHLIST_TABLE+" ( \n" +
                     "Id int PRIMARY KEY NOT NULL, \n" +
                     "ShowType varchar(50),\n" +
-                    "BackdropPath varchar(250),\n" +
                     "PosterPath varchar(250),\n" +
                     "Title varchar(250),\n" +
                     "VoteAverage decimal(5, 2),\n" +
                     "ReleaseDate varchar(50),\n" +
-                    "Overview varchar(500),\n" +
-                    "Genre varchar(50),\n" +
-                    "TrailerKey varchar(50))"
+                    "Overview varchar(500))"
             db.execSQL(createTableBooklet)
         }
 

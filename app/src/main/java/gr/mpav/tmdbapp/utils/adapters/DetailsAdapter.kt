@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import gr.mpav.tmdbapp.R
-import gr.mpav.tmdbapp.utils.adapters.viewholders.DescriptionViewHolder
-import gr.mpav.tmdbapp.utils.adapters.viewholders.HeaderViewHolder
-import gr.mpav.tmdbapp.utils.adapters.viewholders.TrailerViewHolder
-import gr.mpav.tmdbapp.utils.adapters.viewholders.WatchListViewHolder
+import gr.mpav.tmdbapp.utils.adapters.viewholders.*
 
-class DetailsAdapter (val context: Context) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DetailsAdapter (val context: Context) :RecyclerView.Adapter<RecyclerView.ViewHolder>(), TrailerInterface {
+
+    override fun onVideoViewInitialized(youtubePlayerView: YouTubePlayerView) {
+        this.youtubePlayerView = youtubePlayerView
+    }
 
     companion object {
         private const val TYPE_HEADER = 0
@@ -21,9 +23,15 @@ class DetailsAdapter (val context: Context) :RecyclerView.Adapter<RecyclerView.V
     }
 
     private var mDetailItems = ArrayList<DetailAdapterItem>()
+    private var youtubePlayerView: YouTubePlayerView? = null
 
     fun setData(data:ArrayList<DetailAdapterItem>){
         mDetailItems = data
+        notifyDataSetChanged()
+    }
+
+    fun releaseTrailerListeners(){
+        youtubePlayerView?.release()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -45,7 +53,9 @@ class DetailsAdapter (val context: Context) :RecyclerView.Adapter<RecyclerView.V
             }
             else -> {
                 view = inflater.inflate(R.layout.show_trailer_layout, viewGroup, false)
-                return TrailerViewHolder(view)
+                val trailerViewHolder = TrailerViewHolder(view)
+                trailerViewHolder.setListener(this)
+                return trailerViewHolder
             }
         }
     }

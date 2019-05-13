@@ -3,6 +3,7 @@ package gr.mpav.tmdbapp.utils.database
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import java.io.Serializable
 
 data class DBShow(
     var Id: Int = -1,
@@ -15,7 +16,7 @@ data class DBShow(
     var Overview:String = "",
     var Genre:String = "",
     var TrailerKey:String = ""
-)
+): Serializable
 
 
 fun insertShowToWatchList(db: SQLiteDatabase, dbShow: DBShow) {

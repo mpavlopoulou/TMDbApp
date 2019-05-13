@@ -66,39 +66,39 @@ class Genre {
 class ShowDetails{
     @SerializedName("backdrop_path")
     @Expose
-    var backdropPath: String = ""
+    var backdropPath: String? = ""
 
     @SerializedName("poster_path")
     @Expose
-    var posterPath: String = ""
+    var posterPath: String? = ""
 
     @SerializedName("title")
     @Expose
-    var movieTitle: String = ""
+    var movieTitle: String? = ""
 
     @SerializedName("name")
     @Expose
-    var tvShowTitle: String = ""
+    var tvShowTitle: String? = ""
 
     @SerializedName("vote_average")
     @Expose
-    var rating: Float = 0.toFloat()
+    var rating: Float? = 0.toFloat()
 
     @SerializedName("release_date")
     @Expose
-    var movieReleaseDate: String = ""
+    var movieReleaseDate: String? = ""
 
     @SerializedName("first_air_date")
     @Expose
-    var tvShowReleaseDate: String = ""
+    var tvShowReleaseDate: String? = ""
 
     @SerializedName("overview")
     @Expose
-    var overview: String = ""
+    var overview: String? = ""
 
     @SerializedName("genres")
     @Expose
-    var genres: ArrayList<Genre> = ArrayList()
+    var genres: ArrayList<Genre>? = ArrayList()
 }
 
 class ShowVideo{

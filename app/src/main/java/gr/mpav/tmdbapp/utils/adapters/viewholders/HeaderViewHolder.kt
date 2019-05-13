@@ -1,6 +1,7 @@
 package gr.mpav.tmdbapp.utils.adapters.viewholders
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -51,8 +52,11 @@ class HeaderViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-
         genreChip.text = headerItem.genre
         ratingChip.text = headerItem.rating.toString()
+
+        dateChip.visibility = if(dateChip.text.isEmpty()) View.GONE else View.VISIBLE
+        genreChip.visibility = if(genreChip.text.isEmpty()) View.GONE else View.VISIBLE
+        ratingChip.visibility = if(ratingChip.text.isEmpty()) View.GONE else View.VISIBLE
     }
 }

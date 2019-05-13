@@ -4,7 +4,7 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/progress_view_background"
+		android:background="@android:color/transparent"
 		android:visibility="gone">
 	
 	<com.wang.avi.AVLoadingIndicatorView
@@ -13,7 +13,7 @@
 			android:layout_height="wrap_content"
 			style="@style/AVLoadingIndicatorView"
 			android:visibility="visible"
-			app:indicatorColor="@color/colorPrimaryDark"
+			app:indicatorColor="@color/colorAccent"
 			app:indicatorName="BallSpinFadeLoaderIndicator"/>
 
 </FrameLayout>

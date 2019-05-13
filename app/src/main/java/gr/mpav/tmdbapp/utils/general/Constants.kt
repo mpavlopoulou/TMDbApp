@@ -12,5 +12,6 @@ class Constants {
         const val SEARCH_TERM = "search_term"
         const val SHOW_ID = "show_id"
         const val SHOW_TYPE = "show_type"
+        const val SHOW_SELECTED = "show_selected"
     }
 }

@@ -18,6 +18,7 @@ import gr.mpav.tmdbapp.utils.api_calls.TMDBRepository
 import gr.mpav.tmdbapp.utils.general.Constants.Companion.SEARCH_TERM
 import gr.mpav.tmdbapp.utils.general.hideKeyboard
 import android.content.Intent
+import gr.mpav.tmdbapp.utils.database.DBShow
 import gr.mpav.tmdbapp.utils.general.Constants
 
 
@@ -93,8 +94,7 @@ class SearchActivity : BaseActivity(), ShowsAdapterListener {
 
     override fun onShowSelected(showId: Int,showType:String) {
         val detailsIntent = Intent(this, DetailsActivity::class.java)
-        detailsIntent.putExtra(Constants.SHOW_ID, showId)
-        detailsIntent.putExtra(Constants.SHOW_TYPE, showType)
+        detailsIntent.putExtra(Constants.SHOW_SELECTED, DBShow(showId,showType))
         startActivity(detailsIntent)
     }
 

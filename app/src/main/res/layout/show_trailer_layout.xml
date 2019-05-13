@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/trailer_text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:autoPlay="false"
-            app:showFullScreenButton="false"/>
+            app:showFullScreenButton="false"
+            android:paddingBottom="12dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
